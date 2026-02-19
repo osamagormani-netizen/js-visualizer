@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown, BookOpen, Clock, Sparkles, Network, Code2 } from "lucide-react";
+import { ChevronDown, BookOpen, Clock, Sparkles, Network } from "lucide-react";
 import { categories, type Category } from "@/data/examples";
 import { type VisualizerExample } from "@/lib/types";
 
@@ -45,30 +45,6 @@ export function ExampleSelector({ selectedExample, onSelect }: ExampleSelectorPr
 
       {open && (
         <div className="absolute top-full left-0 mt-1 w-80 bg-card border border-card-border rounded-lg shadow-xl z-50 max-h-[400px] overflow-y-auto animate-fade-in">
-          <div className="px-3 py-2">
-            <button
-              onClick={() => {
-                onSelect({
-                  id: 'custom',
-                  title: 'Custom code',
-                  description: 'Create your own code and author visualization steps',
-                  category: 'custom',
-                  code: '',
-                  steps: [],
-                } as VisualizerExample);
-                setOpen(false);
-              }}
-              className={`w-full text-left px-3 py-2.5 text-sm transition-colors cursor-pointer hover:bg-sidebar-hover flex items-start gap-2 ${selectedExample?.id === 'custom' ? 'bg-sidebar-active text-accent font-medium' : 'text-foreground'
-                }`}
-            >
-              <Code2 className="h-4 w-4 text-accent mt-0.5 shrink-0" />
-              <div className="min-w-0">
-                <div className="font-medium text-xs">Custom code</div>
-                <div className="text-[10px] text-muted mt-0.5 truncate">Author your own code & steps</div>
-              </div>
-            </button>
-          </div>
-
           {categories.map((category: Category) => {
             const Icon = iconMap[category.icon || ''] || BookOpen;
             return (

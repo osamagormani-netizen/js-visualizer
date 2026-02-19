@@ -6,6 +6,16 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/js-visualizer",
+        basePath: false,
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

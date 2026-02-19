@@ -146,7 +146,7 @@ export default function Home() {
   const [playgroundOutput, setPlaygroundOutput] = useState<OutputLine[]>([]);
   const [isRunning, setIsRunning] = useState(false);
   const [executionTime, setExecutionTime] = useState<number | null>(null);
-  
+
 
   // ── Visualizer handlers ──
   const handleSelectExample = useCallback((example: VisualizerExample) => {
@@ -154,15 +154,6 @@ export default function Home() {
     setState(createInitialState(example.steps));
     setIsPlaying(false);
   }, []);
-
-  const stepForward = useCallback(() => {
-    setState((prev) => {
-      if (prev.currentStep >= prev.totalSteps - 1) return prev;
-      const nextStep = prev.currentStep + 1;
-      const newState = applyStep(prev, selectedExample.steps[nextStep]);
-      return { ...newState, currentStep: nextStep };
-    });
-  }, [selectedExample]);
 
   const stepBack = useCallback(() => {
     setState((prev) => {
@@ -181,6 +172,15 @@ export default function Home() {
   const handlePlayPause = useCallback(() => {
     setIsPlaying((prev) => !prev);
   }, []);
+
+  const stepForward = useCallback(() => {
+    setState((prev) => {
+      if (prev.currentStep >= prev.totalSteps - 1) return prev;
+      const nextStep = prev.currentStep + 1;
+      const newState = applyStep(prev, selectedExample.steps[nextStep]);
+      return { ...newState, currentStep: nextStep };
+    });
+  }, [selectedExample]);
 
   const handleSeek = useCallback((step: number) => {
     setIsPlaying(false);
@@ -224,7 +224,7 @@ export default function Home() {
     setExecutionTime(null);
 
     setTimeout(() => {
-      const { executionTime: time } = executeCode(playgroundCode, (line) => {
+      const { executionTime: time } = executeCode(playgroundCode, (line: OutputLine) => {
         setPlaygroundOutput((prev) => [...prev, line]);
       });
       setExecutionTime(time);
@@ -232,7 +232,7 @@ export default function Home() {
     }, 50);
   }, [playgroundCode]);
 
-  
+
 
   const handleClearOutput = useCallback(() => {
     setPlaygroundOutput([]);
@@ -335,7 +335,7 @@ export default function Home() {
             />
           )}
 
-          
+
 
           {mode === "playground" && (
             <div className="flex items-center gap-2">
