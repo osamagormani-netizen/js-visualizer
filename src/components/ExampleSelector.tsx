@@ -35,7 +35,7 @@ export function ExampleSelector({ selectedExample, onSelect }: ExampleSelectorPr
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm bg-card border border-card-border hover:bg-sidebar-hover transition-all cursor-pointer min-w-[200px]"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm bg-card border border-card-border hover:bg-sidebar-hover transition-all cursor-pointer min-w-0 sm:min-w-[200px] w-full"
       >
         <span className="truncate text-left flex-1">
           {selectedExample ? selectedExample.title : "Select an example..."}
@@ -44,7 +44,7 @@ export function ExampleSelector({ selectedExample, onSelect }: ExampleSelectorPr
       </button>
 
       {open && (
-        <div className="absolute top-full left-0 mt-1 w-80 bg-card border border-card-border rounded-lg shadow-xl z-50 max-h-[400px] overflow-y-auto animate-fade-in">
+        <div className="absolute top-full left-0 mt-1 w-[calc(100vw-2rem)] xs:w-80 bg-card border border-card-border rounded-lg shadow-xl z-50 max-h-[400px] overflow-y-auto animate-fade-in">
           {categories.map((category: Category) => {
             const Icon = iconMap[category.icon || ''] || BookOpen;
             return (

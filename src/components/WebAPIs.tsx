@@ -8,12 +8,12 @@ interface WebAPIsProps {
 
 export function WebAPIs({ items }: WebAPIsProps) {
   return (
-    <div className="flex flex-col h-full rounded-lg border border-card-border overflow-hidden">
-      <div className="px-3 py-2 bg-card border-b border-card-border flex items-center gap-2">
-        <div className="h-2.5 w-2.5 rounded-full bg-warning" />
+    <div className="flex flex-col h-full rounded-xl border border-card-border overflow-hidden glass shadow-sm">
+      <div className="px-3 py-2 bg-card/40 border-b border-card-border flex items-center gap-2">
+        <div className="h-2.5 w-2.5 rounded-full bg-warning shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
         <span className="text-xs font-semibold uppercase tracking-wider text-muted">Web APIs</span>
       </div>
-      <div className="flex-1 flex flex-col justify-start p-2 gap-1.5 overflow-y-auto bg-background">
+      <div className="flex-1 flex flex-col justify-start p-2 gap-1.5 overflow-y-auto bg-transparent">
         {items.length === 0 ? (
           <div className="flex items-center justify-center h-full text-xs text-muted/50">
             No active APIs

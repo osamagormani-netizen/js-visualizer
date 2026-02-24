@@ -79,7 +79,7 @@ export function Controls({
         </button>
       </div>
 
-      <span className="text-xs text-muted font-mono min-w-[60px] text-center">
+      <span className="hidden xs:inline text-xs text-muted font-mono min-w-[60px] text-center">
         {displayStep > 0 ? displayStep : '–'} / {totalSteps}
       </span>
 

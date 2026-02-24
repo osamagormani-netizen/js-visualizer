@@ -270,10 +270,14 @@ export default function Home() {
 
   // ── Render ──
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
+    <div className="h-full md:h-screen flex flex-col overflow-auto md:overflow-hidden relative bg-background/50">
+      {/* Decorative background gradients for liquid glass effect */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-accent/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple/10 rounded-full blur-[120px] pointer-events-none" />
+
       {/* Header */}
-      <header className="h-[3.25rem] min-h-[3.25rem] flex items-center justify-between px-4 border-b border-card-border bg-card">
-        <div className="flex items-center gap-4">
+      <header className="h-auto min-h-[3.25rem] flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:px-4 border-b border-card-border glass sticky top-0 z-40 gap-3">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4 w-full sm:w-auto">
           {/* Logo */}
           <div className="flex items-center gap-2">
             <div className="h-7 w-7 rounded-lg bg-accent flex items-center justify-center">
@@ -311,16 +315,27 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Mode-specific header controls */}
-          {mode === "visualizer" && (
-            <ExampleSelector
-              selectedExample={selectedExample}
-              onSelect={handleSelectExample}
-            />
-          )}
+          {/* Mode-specific header controls - hidden on tiny screens or adjusted */}
+          <div className="hidden xs:block">
+            {mode === "visualizer" && (
+              <ExampleSelector
+                selectedExample={selectedExample}
+                onSelect={handleSelectExample}
+              />
+            )}
+          </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
+          {/* Example selector for mobile only */}
+          <div className="xs:hidden flex-1">
+            {mode === "visualizer" && (
+              <ExampleSelector
+                selectedExample={selectedExample}
+                onSelect={handleSelectExample}
+              />
+            )}
+          </div>
           {mode === "visualizer" && (
             <Controls
               currentStep={state.currentStep}
@@ -360,7 +375,7 @@ export default function Home() {
       {mode === "visualizer" ? (
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Progress Bar */}
-          <div className="border-b border-card-border bg-card">
+          <div className="border-b border-card-border glass z-30">
             <ProgressBar
               currentStep={state.currentStep}
               totalSteps={state.totalSteps}
@@ -368,48 +383,50 @@ export default function Home() {
             />
           </div>
 
-          <div className="flex-1 flex overflow-hidden">
+          <div className="flex-1 flex flex-col lg:flex-row overflow-auto lg:overflow-hidden">
             {/* Left Panel: Code + Console */}
-            <div className="w-[38%] min-w-[320px] flex flex-col border-r border-card-border">
-              <div className="flex-1 p-2 pb-1 min-h-0">
+            <div className="w-full lg:w-[38%] lg:min-w-[320px] flex flex-col border-b lg:border-b-0 lg:border-r border-card-border">
+              <div className="h-[400px] lg:flex-1 p-2 pb-1 min-h-[300px]">
                 <CodeEditor
                   code={selectedExample.code}
                   readOnly
                   highlightLines={state.highlightLines}
                 />
               </div>
-              <div className="h-[170px] min-h-[170px] p-2 pt-1">
+              <div className="h-[170px] lg:h-[180px] min-h-[170px] p-2 pt-1">
                 <ConsoleOutput items={state.consoleLogs} />
               </div>
             </div>
 
             {/* Right Panel: Visualization */}
-            <div className="flex-1 flex flex-col p-2 gap-2 min-w-0">
+            <div className="flex-1 flex flex-col p-2 gap-2 min-w-0 min-h-[600px] lg:min-h-0">
               {/* Top: Call Stack + Web APIs */}
-              <div className="flex-1 flex gap-2 min-h-0">
-                <div className="flex-1 min-w-0">
+              <div className="flex-1 flex flex-col md:flex-row gap-2 min-h-0">
+                <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0">
                   <CallStack items={state.callStack} />
                 </div>
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0">
                   <WebAPIs items={state.webAPIs} />
                 </div>
               </div>
 
               {/* Event Loop Indicator */}
-              <EventLoopIndicator active={state.eventLoopActive} />
+              <div className="py-2">
+                <EventLoopIndicator active={state.eventLoopActive} />
+              </div>
 
               {/* Bottom: Task Queue + Microtask Queue */}
-              <div className="flex-1 flex gap-2 min-h-0">
-                <div className="flex-1 min-w-0">
+              <div className="flex-1 flex flex-col md:flex-row gap-2 min-h-0">
+                <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0">
                   <TaskQueue items={state.taskQueue} />
                 </div>
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0">
                   <MicrotaskQueue items={state.microtaskQueue} />
                 </div>
               </div>
 
               {/* Step Description */}
-              <div className="min-h-[72px] rounded-lg border border-card-border bg-card p-3">
+              <div className="min-h-[72px] rounded-xl border border-card-border liquid-glass p-3 shadow-sm transition-all hover:shadow-md">
                 <div className="flex items-start gap-2">
                   <MessageSquareText className="h-4 w-4 text-accent mt-0.5 shrink-0" />
                   <div className="min-w-0">
@@ -439,11 +456,11 @@ export default function Home() {
         </div>
       ) : (
         /* Playground Mode */
-        <div className="flex-1 flex overflow-hidden">
+        <div className="flex-1 flex flex-col md:flex-row overflow-auto md:overflow-hidden">
           {/* Left: Code Editor */}
-          <div className="w-1/2 flex flex-col border-r border-card-border">
+          <div className="w-full md:w-1/2 flex flex-col border-b md:border-b-0 md:border-r border-card-border h-[500px] md:h-full">
             {/* Snippet selector */}
-            <div className="flex items-center gap-1.5 px-3 py-2 border-b border-card-border bg-card overflow-x-auto">
+            <div className="flex items-center gap-1.5 px-3 py-2 border-b border-card-border bg-card overflow-x-auto no-scrollbar">
               <span className="text-[10px] text-muted uppercase tracking-wider font-semibold shrink-0">Snippets:</span>
               {playgroundSnippets.map((snippet) => (
                 <button
@@ -473,7 +490,7 @@ export default function Home() {
           </div>
 
           {/* Right: Console Output */}
-          <div className="w-1/2 flex flex-col">
+          <div className="w-full md:w-1/2 flex flex-col h-[300px] md:h-full">
             <div className="flex-1 p-2 min-h-0">
               <ManualConsole
                 output={playgroundOutput}

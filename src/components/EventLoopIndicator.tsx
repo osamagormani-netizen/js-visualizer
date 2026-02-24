@@ -10,11 +10,10 @@ export function EventLoopIndicator({ active }: EventLoopIndicatorProps) {
       <div className="h-px flex-1 bg-card-border" />
       <div className="flex items-center gap-2">
         <div
-          className={`relative h-8 w-8 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
-            active
-              ? 'border-success bg-success/10 shadow-[0_0_12px_rgba(34,197,94,0.3)]'
-              : 'border-card-border bg-card'
-          }`}
+          className={`relative h-10 w-10 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${active
+              ? 'border-success bg-success/10 shadow-[0_0_15px_rgba(34,197,94,0.4)] scale-110'
+              : 'border-card-border bg-card/40 glass'
+            }`}
         >
           <svg
             width="16"
@@ -48,9 +47,8 @@ export function EventLoopIndicator({ active }: EventLoopIndicatorProps) {
             />
           </svg>
         </div>
-        <span className={`text-xs font-semibold uppercase tracking-wider transition-colors duration-300 ${
-          active ? 'text-success' : 'text-muted/50'
-        }`}>
+        <span className={`text-xs font-semibold uppercase tracking-wider transition-colors duration-300 ${active ? 'text-success' : 'text-muted/50'
+          }`}>
           Event Loop
         </span>
       </div>
