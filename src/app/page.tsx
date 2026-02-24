@@ -270,52 +270,53 @@ export default function Home() {
 
   // ── Render ──
   return (
-    <div className="h-full md:h-screen flex flex-col overflow-auto md:overflow-hidden relative bg-background/50">
-      {/* Decorative background gradients for liquid glass effect */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-accent/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple/10 rounded-full blur-[120px] pointer-events-none" />
+    <div className="h-full md:h-screen flex flex-col overflow-auto md:overflow-hidden relative bg-background antialiased">
+      {/* Decorative background gradients */}
+      <div className="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] bg-accent/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-5%] w-[45%] h-[45%] bg-purple/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[-10%] w-[30%] h-[30%] bg-indigo/5 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Header */}
-      <header className="h-auto min-h-[3.25rem] flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:px-4 border-b border-card-border glass sticky top-0 z-40 gap-3">
-        <div className="flex flex-wrap items-center gap-3 sm:gap-4 w-full sm:w-auto">
+      <header className="h-auto min-h-[3.5rem] flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:px-6 border-b border-card-border glass sticky top-0 z-40 gap-4">
+        <div className="flex flex-wrap items-center gap-4 sm:gap-6 w-full sm:w-auto">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-lg bg-accent flex items-center justify-center">
-              <Braces className="h-3.5 w-3.5 text-white" />
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-accent flex items-center justify-center shadow-lg shadow-accent/20">
+              <Braces className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h1 className="text-sm font-bold leading-tight">JS Visualizer</h1>
-              <p className="text-[10px] text-muted leading-tight">
-                {mode === "visualizer" ? "Event Loop Execution" : "Code Playground"}
+              <h1 className="text-sm font-semibold tracking-tight leading-none text-foreground">JS Visualizer</h1>
+              <p className="text-[10px] text-muted font-medium mt-1 uppercase tracking-wider">
+                {mode === "visualizer" ? "Event Loop" : "Code Playground"}
               </p>
             </div>
           </div>
 
           {/* Mode Toggle */}
-          <div className="flex items-center bg-sidebar rounded-lg p-0.5 border border-card-border">
+          <div className="flex items-center bg-sidebar/50 backdrop-blur-sm rounded-xl p-1 border border-card-border">
             <button
               onClick={() => setMode("visualizer")}
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium transition-all cursor-pointer ${mode === "visualizer"
-                ? "bg-accent text-white shadow-sm"
+              className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${mode === "visualizer"
+                ? "bg-white dark:bg-card text-foreground shadow-sm border border-card-border"
                 : "text-muted hover:text-foreground"
                 }`}
             >
-              <Eye className="h-3 w-3" />
+              <Eye className="h-3.5 w-3.5" />
               Visualizer
             </button>
             <button
               onClick={() => setMode("playground")}
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium transition-all cursor-pointer ${mode === "playground"
-                ? "bg-accent text-white shadow-sm"
+              className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${mode === "playground"
+                ? "bg-white dark:bg-card text-foreground shadow-sm border border-card-border"
                 : "text-muted hover:text-foreground"
                 }`}
             >
-              <Code2 className="h-3 w-3" />
+              <Code2 className="h-3.5 w-3.5" />
               Playground
             </button>
           </div>
 
-          {/* Mode-specific header controls - hidden on tiny screens or adjusted */}
+          {/* Mode-specific header controls */}
           <div className="hidden xs:block">
             {mode === "visualizer" && (
               <ExampleSelector
@@ -350,23 +351,21 @@ export default function Home() {
             />
           )}
 
-
-
           {mode === "playground" && (
             <div className="flex items-center gap-2">
               <button
                 onClick={handleRunCode}
                 disabled={isRunning}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-success text-white hover:bg-success/90 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-default shadow-sm"
+                className="apple-button h-8 px-4 bg-accent text-white hover:bg-accent-hover text-xs disabled:opacity-50 shadow-md shadow-accent/10"
               >
-                <Play className="h-3 w-3" />
+                <Play className="h-3.5 w-3.5 mr-1.5" />
                 {isRunning ? "Running..." : "Run"}
-                <kbd className="ml-1 text-[9px] opacity-70">⌘↵</kbd>
+                <span className="ml-2 text-[10px] opacity-60 font-medium">⌘↵</span>
               </button>
             </div>
           )}
 
-          <div className="w-px h-6 bg-card-border" />
+          <div className="w-px h-8 bg-card-border mx-1" />
           <ThemeToggle />
         </div>
       </header>
@@ -383,70 +382,67 @@ export default function Home() {
             />
           </div>
 
-          <div className="flex-1 flex flex-col lg:flex-row overflow-auto lg:overflow-hidden">
+          <div className="flex-1 flex flex-col lg:flex-row overflow-auto lg:overflow-hidden p-2 sm:p-4 gap-2 sm:gap-4">
             {/* Left Panel: Code + Console */}
-            <div className="w-full lg:w-[38%] lg:min-w-[320px] flex flex-col border-b lg:border-b-0 lg:border-r border-card-border">
-              <div className="h-[400px] lg:flex-1 p-2 pb-1 min-h-[300px]">
+            <div className="w-full lg:w-[38%] lg:min-w-[400px] flex flex-col gap-2 sm:gap-4">
+              <div className="h-[400px] lg:flex-1 min-h-[300px] apple-card shadow-sm">
                 <CodeEditor
                   code={selectedExample.code}
                   readOnly
                   highlightLines={state.highlightLines}
                 />
               </div>
-              <div className="h-[170px] lg:h-[180px] min-h-[170px] p-2 pt-1">
+              <div className="h-[180px] lg:h-[200px] min-h-[180px] apple-card shadow-sm">
                 <ConsoleOutput items={state.consoleLogs} />
               </div>
             </div>
 
             {/* Right Panel: Visualization */}
-            <div className="flex-1 flex flex-col p-2 gap-2 min-w-0 min-h-[600px] lg:min-h-0">
+            <div className="flex-1 flex flex-col gap-2 sm:gap-4 min-w-0 min-h-[600px] lg:min-h-0">
               {/* Top: Call Stack + Web APIs */}
-              <div className="flex-1 flex flex-col md:flex-row gap-2 min-h-0">
-                <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0">
+              <div className="flex-[5] flex flex-col md:flex-row gap-2 sm:gap-4 min-h-0">
+                <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0 apple-card shadow-sm">
                   <CallStack items={state.callStack} />
                 </div>
-                <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0">
+                <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0 apple-card shadow-sm">
                   <WebAPIs items={state.webAPIs} />
                 </div>
               </div>
 
               {/* Event Loop Indicator */}
-              <div className="py-2">
+              <div className="py-1">
                 <EventLoopIndicator active={state.eventLoopActive} />
               </div>
 
               {/* Bottom: Task Queue + Microtask Queue */}
-              <div className="flex-1 flex flex-col md:flex-row gap-2 min-h-0">
-                <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0">
+              <div className="flex-[4] flex flex-col md:flex-row gap-2 sm:gap-4 min-h-0">
+                <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0 apple-card shadow-sm">
                   <TaskQueue items={state.taskQueue} />
                 </div>
-                <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0">
+                <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0 apple-card shadow-sm">
                   <MicrotaskQueue items={state.microtaskQueue} />
                 </div>
               </div>
 
               {/* Step Description */}
-              <div className="min-h-[72px] rounded-xl border border-card-border liquid-glass p-3 shadow-sm transition-all hover:shadow-md">
-                <div className="flex items-start gap-2">
-                  <MessageSquareText className="h-4 w-4 text-accent mt-0.5 shrink-0" />
+              <div className="min-h-[80px] rounded-2xl border border-card-border liquid-glass p-4 shadow-lg shadow-black/5 transition-all hover:shadow-xl hover:shadow-black/10">
+                <div className="flex items-start gap-3">
+                  <div className="h-6 w-6 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
+                    <MessageSquareText className="h-3.5 w-3.5 text-accent" />
+                  </div>
                   <div className="min-w-0">
                     {state.description ? (
-                      <p className="text-sm leading-relaxed animate-fade-in">
+                      <p className="text-sm leading-relaxed font-medium text-foreground/90 animate-fade-in">
                         {state.description}
                       </p>
                     ) : (
-                      <p className="text-sm text-muted">
+                      <div className="text-sm text-muted font-medium">
                         Press{" "}
-                        <kbd className="px-1.5 py-0.5 rounded bg-sidebar border border-card-border text-xs font-mono">
+                        <kbd className="px-2 py-0.5 rounded-md bg-white dark:bg-sidebar border border-card-border text-[10px] font-mono shadow-sm">
                           →
                         </kbd>{" "}
-                        or click <strong>Step Forward</strong> to start.
-                        Use{" "}
-                        <kbd className="px-1.5 py-0.5 rounded bg-sidebar border border-card-border text-xs font-mono">
-                          Space
-                        </kbd>{" "}
-                        to play/pause.
-                      </p>
+                        or click <strong>Step Forward</strong> to start visualizing the execution.
+                      </div>
                     )}
                   </div>
                 </div>
@@ -470,9 +466,9 @@ export default function Home() {
                     setPlaygroundOutput([]);
                     setExecutionTime(null);
                   }}
-                  className={`px-2 py-1 rounded text-[11px] font-medium transition-colors cursor-pointer whitespace-nowrap ${playgroundCode === snippet.code
-                    ? "bg-accent/15 text-accent border border-accent/30"
-                    : "bg-sidebar text-muted hover:text-foreground hover:bg-sidebar-hover border border-transparent"
+                  className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap border ${playgroundCode === snippet.code
+                    ? "bg-accent shadow-lg shadow-accent/20 text-white border-accent"
+                    : "bg-white/50 dark:bg-card/50 backdrop-blur-sm text-muted hover:text-foreground hover:bg-white dark:hover:bg-card border-card-border"
                     }`}
                 >
                   {snippet.label}

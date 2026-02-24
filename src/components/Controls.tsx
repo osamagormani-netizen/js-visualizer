@@ -36,46 +36,46 @@ export function Controls({
   const displayStep = currentStep + 1;
 
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex items-center gap-2">
       <button
         onClick={onReset}
-        className="p-1.5 rounded-md hover:bg-sidebar-hover transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-default"
+        className="apple-button h-8 w-8 hover:bg-sidebar-active text-muted hover:text-foreground disabled:opacity-30 disabled:cursor-default"
         disabled={currentStep === -1}
         title="Reset"
       >
-        <RotateCcw className="h-3.5 w-3.5" />
+        <RotateCcw className="h-4 w-4" />
       </button>
 
-      <div className="flex items-center bg-card border border-card-border rounded-lg">
+      <div className="flex items-center bg-sidebar/50 backdrop-blur-sm border border-card-border rounded-xl p-0.5">
         <button
           onClick={onStepBack}
           disabled={!canStepBack}
-          className="p-1.5 rounded-l-lg hover:bg-sidebar-hover transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-default"
+          className="apple-button h-7 px-2 hover:bg-white dark:hover:bg-card hover:shadow-sm text-foreground disabled:opacity-30 disabled:cursor-default"
           title="Step back"
         >
-          <SkipBack className="h-3.5 w-3.5" />
+          <SkipBack className="h-4 w-4" />
         </button>
 
         <button
           onClick={onPlayPause}
           disabled={!canStepForward && !isPlaying}
-          className="p-1.5 hover:bg-sidebar-hover transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-default border-x border-card-border"
+          className="apple-button h-7 px-3 hover:bg-white dark:hover:bg-card hover:shadow-sm text-foreground disabled:opacity-30 disabled:cursor-default border-x border-card-border/50 mx-0.5"
           title={isPlaying ? "Pause" : "Play"}
         >
           {isPlaying ? (
-            <Pause className="h-3.5 w-3.5" />
+            <Pause className="h-4 w-4" />
           ) : (
-            <Play className="h-3.5 w-3.5" />
+            <Play className="h-4 w-4" />
           )}
         </button>
 
         <button
           onClick={onStepForward}
           disabled={!canStepForward}
-          className="p-1.5 rounded-r-lg hover:bg-sidebar-hover transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-default"
+          className="apple-button h-7 px-2 hover:bg-white dark:hover:bg-card hover:shadow-sm text-foreground disabled:opacity-30 disabled:cursor-default"
           title="Step forward"
         >
-          <SkipForward className="h-3.5 w-3.5" />
+          <SkipForward className="h-4 w-4" />
         </button>
       </div>
 

@@ -8,33 +8,43 @@ interface WebAPIsProps {
 
 export function WebAPIs({ items }: WebAPIsProps) {
   return (
-    <div className="flex flex-col h-full rounded-xl border border-card-border overflow-hidden glass shadow-sm">
-      <div className="px-3 py-2 bg-card/40 border-b border-card-border flex items-center gap-2">
-        <div className="h-2.5 w-2.5 rounded-full bg-warning shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
-        <span className="text-xs font-semibold uppercase tracking-wider text-muted">Web APIs</span>
+    <div className="flex flex-col h-full bg-card overflow-hidden">
+      <div className="px-4 py-2.5 bg-sidebar/30 backdrop-blur-md border-b border-card-border flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="h-2 w-2 rounded-full bg-indigo shadow-[0_0_10px_rgba(88,86,214,0.5)]" />
+          <span className="text-[10px] font-bold uppercase tracking-wider text-muted/80">Web APIs</span>
+        </div>
+        <span className="text-[9px] font-medium text-muted/60 uppercase tracking-tight">Timers & Async</span>
       </div>
-      <div className="flex-1 flex flex-col justify-start p-2 gap-1.5 overflow-y-auto bg-transparent">
+      <div className="flex-1 flex flex-col justify-start p-3 gap-2 overflow-y-auto bg-transparent no-scrollbar">
         {items.length === 0 ? (
-          <div className="flex items-center justify-center h-full text-xs text-muted/50">
-            No active APIs
+          <div className="flex-1 flex flex-col items-center justify-center opacity-30 gap-1">
+            <div className="h-10 w-10 rounded-full border border-dashed border-muted/50" />
+            <span className="text-[10px] uppercase font-bold tracking-widest text-muted">Idle</span>
           </div>
         ) : (
           items.map((item) => (
             <div
               key={item.id}
-              className="animate-queue-add flex items-center justify-between px-3 py-2 rounded-md text-xs font-mono shadow-sm border"
+              className="animate-queue-add flex items-center justify-between px-4 py-3 rounded-xl text-xs font-semibold shadow-md border"
               style={{
-                borderColor: item.color || '#f59e0b',
-                backgroundColor: (item.color || '#f59e0b') + '18',
+                borderColor: (item.color || '#5856d6') + '40',
+                backgroundColor: (item.color || '#5856d6') + '10',
               }}
             >
-              <span className="font-medium truncate" style={{ color: item.color || '#f59e0b' }}>
-                {item.label}
-              </span>
-              {item.detail && (
-                <span className="text-muted ml-2 shrink-0 text-[10px]">
-                  ⏱ {item.detail}
+              <div className="flex items-center gap-2 truncate">
+                <div
+                  className="h-1.5 w-1.5 rounded-full"
+                  style={{ backgroundColor: item.color || '#5856d6' }}
+                />
+                <span className="truncate" style={{ color: item.color || '#5856d6' }}>
+                  {item.label}
                 </span>
+              </div>
+              {item.detail && (
+                <div className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/5 text-[9px] font-bold text-muted tabular-nums">
+                  {item.detail}
+                </div>
               )}
             </div>
           ))

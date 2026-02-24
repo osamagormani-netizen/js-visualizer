@@ -8,32 +8,39 @@ interface MicrotaskQueueProps {
 
 export function MicrotaskQueue({ items }: MicrotaskQueueProps) {
   return (
-    <div className="flex flex-col h-full rounded-xl border border-card-border overflow-hidden glass shadow-sm">
-      <div className="px-3 py-2 bg-card/40 border-b border-card-border flex items-center gap-2">
-        <div className="h-2.5 w-2.5 rounded-full bg-purple shadow-[0_0_8px_rgba(139,92,246,0.5)]" />
-        <span className="text-xs font-semibold uppercase tracking-wider text-muted">Microtask Queue</span>
+    <div className="flex flex-col h-full bg-card overflow-hidden">
+      <div className="px-4 py-2.5 bg-sidebar/30 backdrop-blur-md border-b border-card-border flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="h-2 w-2 rounded-full bg-purple shadow-[0_0_10px_rgba(175,82,222,0.5)]" />
+          <span className="text-[10px] font-bold uppercase tracking-wider text-muted/80">Microtask Queue</span>
+        </div>
+        <span className="text-[9px] font-medium text-muted/60 uppercase tracking-tight">Promises</span>
       </div>
-      <div className="flex-1 flex items-center p-2 gap-1.5 overflow-x-auto bg-transparent no-scrollbar">
+      <div className="flex-1 flex items-center p-3 gap-2 overflow-x-auto bg-transparent no-scrollbar">
         {items.length === 0 ? (
-          <div className="flex items-center justify-center w-full text-xs text-muted/50">
-            Empty
+          <div className="flex-1 flex flex-col items-center justify-center opacity-30 gap-1">
+            <div className="h-10 w-10 rounded-full border border-dashed border-muted/50" />
+            <span className="text-[10px] uppercase font-bold tracking-widest text-muted">Empty</span>
           </div>
         ) : (
-          <>
+          <div className="flex items-center gap-2">
             {items.map((item, i) => (
-              <div key={item.id} className="flex items-center gap-1.5">
+              <div key={item.id} className="flex items-center gap-2">
                 <div
-                  className="animate-queue-add px-3 py-2 rounded-md text-xs font-mono font-medium text-white shadow-sm whitespace-nowrap"
-                  style={{ backgroundColor: item.color || '#8b5cf6' }}
+                  className="animate-queue-add px-4 py-2.5 rounded-xl text-xs font-semibold text-white shadow-lg shadow-black/5 whitespace-nowrap border border-white/10"
+                  style={{
+                    backgroundColor: item.color || '#af52de',
+                    backgroundImage: 'linear-gradient(to bottom, rgba(255,255,255,0.1), transparent)'
+                  }}
                 >
                   {item.label}
                 </div>
                 {i < items.length - 1 && (
-                  <span className="text-muted/40 text-xs">→</span>
+                  <div className="h-px w-3 bg-card-border" />
                 )}
               </div>
             ))}
-          </>
+          </div>
         )}
       </div>
     </div>

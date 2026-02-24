@@ -51,14 +51,15 @@ export function CodeEditor({ code, onChange, readOnly = false, highlightLines = 
 
   if (!mounted) {
     return (
-      <div className="h-full w-full bg-card border border-card-border rounded-lg flex items-center justify-center text-muted text-sm">
-        Loading editor...
+      <div className="h-full w-full bg-sidebar/50 backdrop-blur-sm rounded-xl flex flex-col items-center justify-center text-muted gap-3 border border-card-border border-dashed">
+        <div className="h-8 w-8 rounded-full border-2 border-accent/20 border-t-accent animate-spin" />
+        <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Initializing...</span>
       </div>
     );
   }
 
   return (
-    <div className="h-full w-full rounded-lg overflow-hidden border border-card-border">
+    <div className="h-full w-full rounded-xl overflow-hidden bg-card">
       <Editor
         height="100%"
         defaultLanguage="javascript"
@@ -69,21 +70,23 @@ export function CodeEditor({ code, onChange, readOnly = false, highlightLines = 
         options={{
           minimap: { enabled: false },
           fontSize: 13,
-          fontFamily: "var(--font-geist-mono), 'Fira Code', monospace",
+          fontFamily: "'SF Mono', ui-monospace, Monaco, monospace",
           lineNumbers: "on",
           roundedSelection: true,
           scrollBeyondLastLine: false,
-          padding: { top: 12, bottom: 12 },
+          padding: { top: 16, bottom: 16 },
           readOnly,
           wordWrap: "on",
           tabSize: 2,
           automaticLayout: true,
           bracketPairColorization: { enabled: true },
-          guides: { bracketPairs: true },
+          guides: { bracketPairs: true, indentation: true },
           smoothScrolling: true,
           cursorSmoothCaretAnimation: "on",
           renderLineHighlight: readOnly ? "none" : "line",
           domReadOnly: readOnly,
+          lineDecorationsWidth: 10,
+          lineNumbersMinChars: 3,
         }}
       />
     </div>
