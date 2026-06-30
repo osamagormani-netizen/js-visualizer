@@ -14,7 +14,11 @@ import { Controls } from "@/components/Controls";
 import { ExampleSelector } from "@/components/ExampleSelector";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ManualConsole } from "@/components/ManualConsole";
-import { createInitialState, computeStateAtStep, applyStep } from "@/lib/engine";
+import {
+  createInitialState,
+  computeStateAtStep,
+  applyStep,
+} from "@/lib/engine";
 import { type VisualizerExample, type VisualizerState } from "@/lib/types";
 import { allExamples } from "@/data/examples";
 import { executeCode, type OutputLine } from "@/lib/executeCode";
@@ -133,20 +137,23 @@ export default function Home() {
   const [mode, setMode] = useState<AppMode>("visualizer");
 
   // ── Visualizer state ──
-  const [selectedExample, setSelectedExample] = useState<VisualizerExample>(allExamples[0]);
+  const [selectedExample, setSelectedExample] = useState<VisualizerExample>(
+    allExamples[0],
+  );
   const [state, setState] = useState<VisualizerState>(() =>
-    createInitialState(selectedExample.steps)
+    createInitialState(selectedExample.steps),
   );
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1000);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // ── Playground state ──
-  const [playgroundCode, setPlaygroundCode] = useState(playgroundSnippets[0].code);
+  const [playgroundCode, setPlaygroundCode] = useState(
+    playgroundSnippets[0].code,
+  );
   const [playgroundOutput, setPlaygroundOutput] = useState<OutputLine[]>([]);
   const [isRunning, setIsRunning] = useState(false);
   const [executionTime, setExecutionTime] = useState<number | null>(null);
-
 
   // ── Visualizer handlers ──
   const handleSelectExample = useCallback((example: VisualizerExample) => {
@@ -182,14 +189,17 @@ export default function Home() {
     });
   }, [selectedExample]);
 
-  const handleSeek = useCallback((step: number) => {
-    setIsPlaying(false);
-    if (step < 0) {
-      setState(createInitialState(selectedExample.steps));
-    } else {
-      setState(computeStateAtStep(selectedExample.steps, step));
-    }
-  }, [selectedExample]);
+  const handleSeek = useCallback(
+    (step: number) => {
+      setIsPlaying(false);
+      if (step < 0) {
+        setState(createInitialState(selectedExample.steps));
+      } else {
+        setState(computeStateAtStep(selectedExample.steps, step));
+      }
+    },
+    [selectedExample],
+  );
 
   useEffect(() => {
     if (isPlaying) {
@@ -224,15 +234,16 @@ export default function Home() {
     setExecutionTime(null);
 
     setTimeout(() => {
-      const { executionTime: time } = executeCode(playgroundCode, (line: OutputLine) => {
-        setPlaygroundOutput((prev) => [...prev, line]);
-      });
+      const { executionTime: time } = executeCode(
+        playgroundCode,
+        (line: OutputLine) => {
+          setPlaygroundOutput((prev) => [...prev, line]);
+        },
+      );
       setExecutionTime(time);
       setIsRunning(false);
     }, 50);
   }, [playgroundCode]);
-
-
 
   const handleClearOutput = useCallback(() => {
     setPlaygroundOutput([]);
@@ -243,7 +254,12 @@ export default function Home() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
-      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT") return;
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT"
+      )
+        return;
       if (target.closest(".monaco-editor")) return;
 
       if (mode === "visualizer") {
@@ -259,7 +275,11 @@ export default function Home() {
         }
       }
 
-      if (mode === "playground" && (e.metaKey || e.ctrlKey) && e.key === "Enter") {
+      if (
+        mode === "playground" &&
+        (e.metaKey || e.ctrlKey) &&
+        e.key === "Enter"
+      ) {
         e.preventDefault();
         handleRunCode();
       }
@@ -277,7 +297,7 @@ export default function Home() {
       <div className="absolute top-[20%] right-[-10%] w-[30%] h-[30%] bg-indigo/5 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Header */}
-      <header className="h-auto min-h-[3.5rem] flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:px-6 border-b border-card-border glass sticky top-0 z-40 gap-4">
+      <header className="h-auto min-h-14 flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:px-6 border-b border-card-border glass sticky top-0 z-40 gap-4">
         <div className="flex flex-wrap items-center gap-4 sm:gap-6 w-full sm:w-auto">
           {/* Logo */}
           <div className="flex items-center gap-3">
@@ -285,7 +305,9 @@ export default function Home() {
               <Braces className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h1 className="text-sm font-semibold tracking-tight leading-none text-foreground">JS Visualizer</h1>
+              <h1 className="text-sm font-semibold tracking-tight leading-none text-foreground">
+                JS Visualizer
+              </h1>
               <p className="text-[10px] text-muted font-medium mt-1 uppercase tracking-wider">
                 {mode === "visualizer" ? "Event Loop" : "Code Playground"}
               </p>
@@ -296,20 +318,22 @@ export default function Home() {
           <div className="flex items-center bg-sidebar/50 backdrop-blur-sm rounded-xl p-1 border border-card-border">
             <button
               onClick={() => setMode("visualizer")}
-              className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${mode === "visualizer"
-                ? "bg-white dark:bg-card text-foreground shadow-sm border border-card-border"
-                : "text-muted hover:text-foreground"
-                }`}
+              className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                mode === "visualizer"
+                  ? "bg-white dark:bg-card text-foreground shadow-sm border border-card-border"
+                  : "text-muted hover:text-foreground"
+              }`}
             >
               <Eye className="h-3.5 w-3.5" />
               Visualizer
             </button>
             <button
               onClick={() => setMode("playground")}
-              className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${mode === "playground"
-                ? "bg-white dark:bg-card text-foreground shadow-sm border border-card-border"
-                : "text-muted hover:text-foreground"
-                }`}
+              className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                mode === "playground"
+                  ? "bg-white dark:bg-card text-foreground shadow-sm border border-card-border"
+                  : "text-muted hover:text-foreground"
+              }`}
             >
               <Code2 className="h-3.5 w-3.5" />
               Playground
@@ -360,7 +384,9 @@ export default function Home() {
               >
                 <Play className="h-3.5 w-3.5 mr-1.5" />
                 {isRunning ? "Running..." : "Run"}
-                <span className="ml-2 text-[10px] opacity-60 font-medium">⌘↵</span>
+                <span className="ml-2 text-[10px] opacity-60 font-medium">
+                  ⌘↵
+                </span>
               </button>
             </div>
           )}
@@ -400,7 +426,7 @@ export default function Home() {
             {/* Right Panel: Visualization */}
             <div className="flex-1 flex flex-col gap-2 sm:gap-4 min-w-0 min-h-[600px] lg:min-h-0">
               {/* Top: Call Stack + Web APIs */}
-              <div className="flex-[5] flex flex-col md:flex-row gap-2 sm:gap-4 min-h-0">
+              <div className="flex-5 flex flex-col md:flex-row gap-2 sm:gap-4 min-h-0">
                 <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0 apple-card shadow-sm">
                   <CallStack items={state.callStack} />
                 </div>
@@ -415,7 +441,7 @@ export default function Home() {
               </div>
 
               {/* Bottom: Task Queue + Microtask Queue */}
-              <div className="flex-[4] flex flex-col md:flex-row gap-2 sm:gap-4 min-h-0">
+              <div className="flex-4 flex flex-col md:flex-row gap-2 sm:gap-4 min-h-0">
                 <div className="flex-1 min-w-0 min-h-[200px] lg:min-h-0 apple-card shadow-sm">
                   <TaskQueue items={state.taskQueue} />
                 </div>
@@ -425,7 +451,7 @@ export default function Home() {
               </div>
 
               {/* Step Description */}
-              <div className="min-h-[80px] rounded-2xl border border-card-border liquid-glass p-4 shadow-lg shadow-black/5 transition-all hover:shadow-xl hover:shadow-black/10">
+              <div className="min-h-20 rounded-2xl border border-card-border liquid-glass p-4 shadow-lg shadow-black/5 transition-all hover:shadow-xl hover:shadow-black/10">
                 <div className="flex items-start gap-3">
                   <div className="h-6 w-6 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
                     <MessageSquareText className="h-3.5 w-3.5 text-accent" />
@@ -441,7 +467,8 @@ export default function Home() {
                         <kbd className="px-2 py-0.5 rounded-md bg-white dark:bg-sidebar border border-card-border text-[10px] font-mono shadow-sm">
                           →
                         </kbd>{" "}
-                        or click <strong>Step Forward</strong> to start visualizing the execution.
+                        or click <strong>Step Forward</strong> to start
+                        visualizing the execution.
                       </div>
                     )}
                   </div>
@@ -457,7 +484,9 @@ export default function Home() {
           <div className="w-full md:w-1/2 flex flex-col border-b md:border-b-0 md:border-r border-card-border h-[500px] md:h-full">
             {/* Snippet selector */}
             <div className="flex items-center gap-1.5 px-3 py-2 border-b border-card-border bg-card overflow-x-auto no-scrollbar">
-              <span className="text-[10px] text-muted uppercase tracking-wider font-semibold shrink-0">Snippets:</span>
+              <span className="text-[10px] text-muted uppercase tracking-wider font-semibold shrink-0">
+                Snippets:
+              </span>
               {playgroundSnippets.map((snippet) => (
                 <button
                   key={snippet.label}
@@ -466,10 +495,11 @@ export default function Home() {
                     setPlaygroundOutput([]);
                     setExecutionTime(null);
                   }}
-                  className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap border ${playgroundCode === snippet.code
-                    ? "bg-accent shadow-lg shadow-accent/20 text-white border-accent"
-                    : "bg-white/50 dark:bg-card/50 backdrop-blur-sm text-muted hover:text-foreground hover:bg-white dark:hover:bg-card border-card-border"
-                    }`}
+                  className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap border ${
+                    playgroundCode === snippet.code
+                      ? "bg-accent shadow-lg shadow-accent/20 text-white border-accent"
+                      : "bg-white/50 dark:bg-card/50 backdrop-blur-sm text-muted hover:text-foreground hover:bg-white dark:hover:bg-card border-card-border"
+                  }`}
                 >
                   {snippet.label}
                 </button>
@@ -478,10 +508,7 @@ export default function Home() {
 
             {/* Editor */}
             <div className="flex-1 p-2 min-h-0">
-              <CodeEditor
-                code={playgroundCode}
-                onChange={setPlaygroundCode}
-              />
+              <CodeEditor code={playgroundCode} onChange={setPlaygroundCode} />
             </div>
           </div>
 
